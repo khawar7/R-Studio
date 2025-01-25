@@ -1,0 +1,573 @@
+---
+title: "R Basics"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+A variable in programming or statistics is a symbolic name associated with a value. It acts as a container for storing data that can be manipulated or analyzed during computation or analysis.
+
+## Types of Variables
+
+### Numerical (Quantitative):
+
+1. **Continuous**:Can take any value within a range (e.g., height, weight).
+2. **Discrete**:Takes specific,countable values (e.g.number of cars,age in years).
+
+```{r}
+# Numerical Variables
+age <- 25              # Continuous
+class(age)
+num_cars <- 3          # Discrete
+class(num_cars)
+```
+
+### Categorical (Qualitative):
+
+1. **Nominal**:Categories without a logical order (e.g., gender, color).
+2. **Ordinal**:Categories with a logical order (e.g. education level, customer satisfaction ratings).
+3. **Binary**:Variables with only two possible values (e.g., yes/no, 0/1, true /false).
+4. **Text**:Variables that store strings of characters (e.g names, addresses ).
+5. **Date/Time**:Variables representing dates or times (e.g."2025-01-08","12:30 PM").
+
+```{r}
+# Categorical Variables
+gender <- "Male"        # Nominal
+class(gender)
+
+education <- "Graduate" # Ordinal
+class(education)
+
+# Binary Variable
+is_employed <- TRUE     # Binary
+class(is_employed)
+
+# Text Variable
+name <- "Alice"
+class(name)
+
+# Date/Time Variable
+date_of_birth <- as.Date("1990-01-01")
+class(date_of_birth)
+
+# for complex variable
+k<-3+5i       
+class(k)
+```
+
+### Based on Usage in Analysis:
+
+1. **Independent Variable**:The variable that is manipulated or controlled in an experiment (predictor or input).
+2. **Dependent Variable**:The variable being measured or studied (response or output).
+3. **Control Variable**:Kept constant to prevent from influencing the results.
+
+```{r}
+# Created a dataframe of data with independent,dependent and control variable.
+data <- data.frame(
+  Temperature = c(30, 32, 35, 28, 25),        # Independent Variable (Predictor)
+  Sales = c(200, 220, 250, 180, 150),         # Dependent Variable (Response)
+  Advertising = c(1000, 1200, 1500, 800, 700) # Control Variable
+)
+
+# Linear model including independent and control variables
+model <- lm(Sales ~ Temperature + Advertising, data = data)
+
+# Display the model summary
+summary(model)
+```
+
+### Based on Scope (in programming)
+
+1. **Global Variable**:Accessible throughout the entire program.
+2. **Local Variable**:Accessible only within the function or block in which it  is defined.
+
+```{r}
+# Global Variable
+global_var <- "I am a global variable"
+
+# Function to demonstrate local and global variables
+example_function <- function() {
+  # Local Variable
+  local_var <- "I am a local variable"
+  
+  # Accessing the global variable
+  print(global_var)
+  
+  # Accessing the local variable
+  print(local_var)
+}
+
+# Call the function
+example_function()
+
+# Try accessing the local variable outside the function
+# print(local_var)  # This will give an error because local_var is not defined globally
+```
+
+## Storing value in the variable
+```{r}
+s<-"adil";s
+t<-"usman";t
+u<-"osama";u
+x<-4;x
+y<-TRUE;y
+z<-3+2i;z
+```
+
+# arithmetic operators
+
+```{r}
+x<-2
+y<-3
+
+x+y           # addition
+x-y           # subtraction
+x/y           # division
+x*y           # multiplication 
+```
+
+## relational operators
+
+```{r}
+x>y
+x<y
+x==y
+```
+
+## Data Structure 
+
+```{r}
+# Vector that is a homogeneous single dim data structure
+g<-c(1,2,3,4,5)
+g
+z<-c("k","z")
+z
+f<-c(T,F,T,F)
+f
+
+# heterogeneous vector
+v<-c(1,2,3,4,5,F,T,F)  
+v
+```
+
+## extract vector for the vector
+
+```{r}
+f[1:4]
+f[-4]
+f[3]
+```
+
+# now we create a list of  the different elements
+
+```{r}
+x<-list(12,"khawar",TRUE)
+x
+
+class(x[1])
+class(x[2])
+class(x[3])
+```
+
+# Now create list of vectors
+
+```{r}
+y<-list(c(1,2,3,4,5),c("k","z"),c(1,2,3,4,5,F,T,F))
+y
+
+y[[2]][2]
+y[[3]][3]
+```
+
+# now we create the data frame in the r
+
+```{r}
+df <- data.frame(
+  Name = c("Alice", "Bob", "Charlie"),
+  Age = c(25, 30, 22),
+  City = c("New York", "Los Angeles", "Chicago"))
+df
+
+df$Name
+df$City
+```
+
+# some built-in function in the r studio
+
+```{r}
+data("iris")          # call the built in iris dataset.
+View(iris)            # view the data set.
+str(iris)             # see the strcture of iris data set.
+head(iris)            # see the first few rows of data.
+tail(iris)            # see the last few rows of data.
+summary(iris)         # see the basic statistics of data colomns.
+dim(iris)             # show no. of rows and colomns of data.
+nrow(iris)            # no. of rows of data.
+ncol(iris)            # no. of colomns of data.
+table(iris$Species)   # use to check the frequency of the species
+```
+
+# user define function in r
+
+```{r}
+# Define a function called 'square' that takes one argument 'x'
+square <- function(x) {
+  result <- x^2
+  return(result)
+}
+
+# Call the 'square' function with an argument and store the result in a variable
+output <- square(5)
+
+# Print the result
+print(output)
+```
+
+# factor and data frame
+
+```{r}
+x<-factor(c("zohan","dark","light"))
+x
+x1<-factor(c("zohan","dark","light","zohan","dark","light"))
+x1
+```
+```{r}
+df <- data.frame(
+  Name = c("Alice", "Bob", "Charlie"),
+  Age = c(25, 30, 22),
+  City = c("New York", "Los Angeles", "Chicago"))
+df
+
+df$Name
+df$City
+```
+
+# now we see how to call the data in repositry in xlsx or csv format.
+
+```{r}
+# calling data in excel format
+library(readxl)
+df<-read_excel("data/kashti.xlsx")  # call the kashti data set.
+head(df[,1:8])                      # we call the first few colomns of df                                       # data highlighting the first 8 colomns.
+```
+```{r}
+# now we call the data in csv format
+library(readr)
+df_1<-read.csv("data/iris.csv")   # we call the iris data in csv format.
+head(df_1)                        # we call the first few rows of data set.
+```
+
+# now we see how to save the builtin data set in xlsx , csv and tsv format. 
+
+Data is the collection of row facts and figures ,when the data is arrange in specific format become information.In dataset we see the observations of same characteristics are displayed in a single colonmns and we have data of form the one type of characteristics are arrange in more than one colomns become a dataset of multiple colomns.
+
+Data set must be save in many format but i highlight only three types that are xlsx (excel format),csv (coma seperated values) and tsv (tab seperated values) format.
+
+```{r}
+# first we call the built in dataset in R.
+data()
+
+# now we see the air quality dataset that is built in dataset in R.
+df_2<-airquality
+head(df_2)
+```
+```{r}
+# now save the dataset in excel format
+library(writexl)
+write_xlsx(df_2,"Data/ariquality.xlsx")
+```
+```{r}
+# now save in csv format 
+write.csv(df_2,"Data/airquality.csv")
+```
+```{r}
+# now save the file in tsv format
+library(readr)
+write_tsv(df_2,"Data/airquality.tsv")
+```
+
+## Missing Values in R
+
+Missing values in R are represented by `NA`, which stands for "Not Available." These values can occur due to various reasons such as data collection issues, data entry errors, or incomplete records. Handling missing values is crucial for accurate data analysis and modeling.
+
+### Identifying Missing Values
+
+To identify missing values in a data frame, you can use the `is.na()` function. This function returns a logical matrix indicating which elements are missing (`TRUE`) and which are not (`FALSE`).
+
+```{r}
+# Create a sample data frame with missing values
+df <- data.frame(A = c(1, 2, NA, 4), B = c("a", NA, "c", "d"), C = c(TRUE, FALSE, TRUE, NA))
+
+# Find missing values in the data frame
+is.na(df)
+```
+
+### Counting Missing Values
+
+You can count the total number of missing values in a data frame, in each column, or in a vector using the `sum()` function in combination with `is.na()`.
+
+```{r}
+# Count the total number of missing values in the data frame
+sum(is.na(df))
+```
+
+### Count Missing Values in Each Column:
+
+```{r}
+# Count missing values in each column using sapply()
+sapply(df, function(x) sum(is.na(x)))
+
+# Or using colSums()
+colSums(is.na(df))
+```
+
+### Count Missing Values in a Vector:
+
+```{r}
+# Create a sample vector with missing values
+vec <- c(1, NA, 3, NA, 5)
+
+# Count missing values in the vector
+sum(is.na(vec))
+```
+
+### Identifying Rows with Missing Values
+
+To identify rows in a data frame that contain missing values, you can use the `complete.cases()` function. This function returns a logical vector indicating which rows have complete data (`TRUE`) and which rows have missing values (`FALSE`).
+
+```{r}
+# Identify rows with missing values
+complete.cases(df)
+```
+
+### Handling Missing Values
+
+Once you've identified the missing values, you can handle them in various ways, such as removing rows with missing values, replacing them with a specific value, or imputing them based on other data.
+
+### 1. Remove Rows with Missing Values:
+
+```{r}
+# Remove rows with any missing values
+df_clean <- df[complete.cases(df), ]
+```
+
+### 2. Replace Missing Values with a Specific Value:
+
+```{r}
+# Replace NA values with 0
+df[is.na(df)] <- 0
+df
+```
+
+# Impute Missing Values:
+
+You can use packages like `mice` or `missForest` for more advanced imputation methods.To replace missing values using the `tidyverse` package in R, you can use the `replace_na()` function from the `tidyr` package. This function allows you to replace `NA` values with specified values for each column in a data frame.
+
+### Overview of `replace_na()`
+
+The `replace_na()` function is used to replace `NA` values in a data frame or vector with specified values. If the input is a data frame, you can provide a named list of values to replace `NA` values in each column. If the input is a vector, you can provide a single value to replace all `NA` values in the vector.
+
+### Syntax
+
+replace_na(data, replace)
+
+1. `data`: A data frame or vector containing `NA` values.
+2. `replace`: A named list of values for each column (if `data` is a data frame) or a single value (if `data` is a vector) to replace `NA` values.
+
+### Replacing `NA` Values in a Data Frame
+
+```{r}
+# Load the tidyverse package
+library(tidyverse)
+
+# Create a sample data frame with missing values
+df <- tibble(
+  A = c(1, 2, NA, 4),
+  B = c("a", NA, "c", "d"),
+  C = c(TRUE, FALSE, TRUE, NA)
+)
+
+# Replace NA values in the data frame
+df_clean <- df %>%
+  replace_na(list(
+    A = 0,          # Replace NA in column A with 0
+    B = "unknown",  # Replace NA in column B with "unknown"
+    C = FALSE       # Replace NA in column C with FALSE
+  ))
+
+# Print the cleaned data frame
+print(df_clean)
+```
+
+### Replacing `NA` Values in a Vector
+
+```{r}
+# Create a sample vector with missing values
+vec <- c(1, NA, 3, NA, 5)
+
+# Replace NA values in the vector with 0
+vec_clean <- replace_na(vec, 0)
+
+# Print the cleaned vector
+print(vec_clean)
+```
+
+### Additional Functions for Handling Missing Values
+
+1. `dplyr::na_if()`: Replaces specified values with `NA`.
+2. `dplyr::coalesce()`: Replaces `NA` values with values from other vectors.
+
+### Example Using `dplyr::coalesce()`
+```{r}
+# Create two vectors
+vec1 <- c(1, NA, 3, NA, 5)
+vec2 <- c(NA, 2, NA, 4, NA)
+
+# Replace NA values in vec1 with corresponding values from vec2
+vec_combined <- dplyr::coalesce(vec1, vec2)
+# Print the combined vector
+print(vec_combined)
+```
+
+# Using Piping Operator
+
+Using the piping operator(`%>%`) in R,we can chain together multiple operations in a clear and readable manner.This is particularly useful when working with the `tidyverse` package.Here's how you can replace missing values using the piping operator.
+
+## Replacing `NA` Values in a Data Frame
+
+Let's start with a sample data frame that contains missing values:
+
+```{r}
+# Load the tidyverse package
+library(tidyverse)
+
+# Create a sample data frame with missing values
+df <- tibble(
+  A = c(1, 2, NA, 4),
+  B = c("a", NA, "c", "d"),
+  C = c(TRUE, FALSE, TRUE, NA)
+)
+
+# Replace NA values in the data frame using the piping operator
+df_clean <- df %>%
+  replace_na(list(
+    A = 0,          # Replace NA in column A with 0
+    B = "unknown",  # Replace NA in column B with "unknown"
+    C = FALSE       # Replace NA in column C with FALSE
+  ))
+
+# Print the cleaned data frame
+print(df_clean)
+```
+
+In this example:
+1. We load the `tidyverse` package.
+2. We create a sample data frame `df` with missing values.
+3. Using the piping operator `%>%`, we chain the `replace_na()` function to replace `NA` values in each column with specified values.
+
+## Replacing `NA` Values in a Vector
+
+You can also use the piping operator to replace `NA` values in a vector:
+
+```{r}
+# Create a sample vector with missing values
+vec <- c(1, NA, 3, NA, 5)
+
+# Replace NA values in the vector with 0 using the piping operator
+vec_clean <- vec %>%
+  replace_na(0)
+
+# Print the cleaned vector
+print(vec_clean)
+```
+
+In this example:
+1. We create a sample vector `vec` with missing values.
+2. Using the piping operator `%>%`, we chain the `replace_na()` function to replace `NA` values with `0`.
+
+## Additional Example Using `dplyr::na_if()` and `dplyr::coalesce()`
+
+You can also use `dplyr::na_if()` to replace specific values with `NA` and then use `dplyr::coalesce()` to replace `NA` values with desired replacements:
+
+```{r}
+# Create a sample vector with missing values
+vec1 <- c(1, NA, 3, NA, 5)
+
+# Use na_if() to replace 2 with NA (for demonstration purposes)
+vec_combined_1 <- vec1 %>%
+  dplyr::na_if(2)
+
+# Replace NA values in vec_combined_1 with 0 using coalesce()
+vec_combined_1 <- vec_combined_1 %>%
+  dplyr::coalesce(0)
+
+# Print the cleaned vector
+print(vec_combined_1)
+```
+
+# Sorting,Selecting,Filtering and Mutating the Data on builtin data in R
+
+```{r}
+# Load the tidyverse package
+library(tidyverse)
+```
+
+## 1. Selecting Columns
+The `select()` function is used to choose specific columns from a data frame.
+
+```{r}
+# Select specific columns from the mtcars dataset
+selected_data <- mtcars %>%
+  select(mpg, cyl, hp)
+
+# Print the selected data
+print(head(selected_data))
+```
+
+## 2. Filtering Rows
+The `filter()` function is used to filter rows based on specific conditions.
+
+```{r}
+# Filter rows where mpg is greater than 20
+filtered_data <- mtcars[,1:8] %>%
+  filter(mpg > 20)
+
+# Print the filtered data
+print(head(filtered_data))
+```
+
+## 3. Mutating (Adding or Modifying Columns)
+
+The `mutate()` function is used to add new columns or modify existing ones.
+
+```{r}
+# Add a new column 'hp_per_cyl' which is horsepower per cylinder
+mutated_data <- mtcars %>%
+  mutate(hp_per_cyl = hp / cyl)
+
+# Print the mutated data
+mutated_data_1<-mutated_data%>%
+  select(cyl,hp,hp_per_cyl)
+head(mutated_data_1)
+```
+
+## 4. Sorting (Arranging Rows)
+The `arrange()` function is used to sort rows based on one or more columns.
+
+```{r}
+# Sort the data by mpg in ascending order
+sorted_data <- mtcars[,1:7] %>%
+  arrange(mpg)
+
+# Print the sorted data
+print(head(sorted_data))
+```
+```{r}
+# Sort the data by mpg in descending order
+sorted_data_desc <- mtcars[,1:7] %>%
+  arrange(desc(mpg))
+
+# Print the sorted data in descending order
+print(head(sorted_data_desc))
+```
