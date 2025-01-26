@@ -1,0 +1,142 @@
+---
+title: "Numeric , Arithmetic , Assignment and Vectors"
+date: "25-12-2024"
+output: pdf_document
+---
+
+In this we introduces the use of R for basic mathematics, storing results for later use, and vectors, which are essential in R. In this we emphasizes that much of R functionality is designed with vector operations in mind.
+
+## Arithmetic functions
+```{r}
+10+10   # addition  
+10/10   # division
+10-10   # subtraction
+10*10   # multiplication
+sqrt(10)# square root 
+10^2    # power
+```
+
+## logarithm functions
+```{r}
+log(10)   # log
+exp(10)   # exponent
+```
+## E-notation
+```{r}
+1e10
+1e10/100  # ten raise to the power
+```
+## Assignment and Variables
+
+The assignment operator (<-) is used to store values in variables.This stores
+the value on the right side of the operator to the object on the left.
+
+```{r}
+# objectifying the values
+x<-10/3   # assign a value to a x
+x
+```
+```{r}
+# Once a value is stored in a variable, it can be used in other calculations.
+x+3
+x*8
+x/3
+```
+## Vectors
+
+Vectors are one-dimensional arrays that can hold multiple values of the same 
+data type.The c() function (which stands for `concatenate`) is used to create
+vectors.
+
+```{r}
+my_vec<-c(1,2,3,4,5)
+my_vec
+```
+## vector arithmetic
+
+Arithmetic operations can be performed on vectors.When an arithmetic operation
+is performed on two vectors, R performs the operation element-by-element.
+
+```{r}
+v1<-c(2,4,6,8,5)
+v2<-c(3,5,7,9,11)
+
+v1-v2
+v1/v2
+v1*v2
+v1+v2
+```
+## Recycling
+
+If two vectors are of different lengths, R will recycle the shorter vector to
+match the length of the longer vector.
+
+```{r}
+v1
+v1+1
+v1 + c(1,2)  # c(1,2) was recycled to c(1,2,1,2) to match the length of v1. 
+```
+## Regular Sequences
+
+R provides functions for generating regular sequences of numbers.The colon operator (:) is used to create a sequence of integers.
+
+```{r}
+y<-1:20  # generate range of no. form 1 to 20.
+y
+```
+```{r}
+# The seq() function creates more complex sequences.
+seq(from=2,to=10)               # no. seq range from 2 to 10
+seq(from=2,to=10,by=2)          # no. seq range by gap of 2.
+seq(from=2,to=10,length.out=9)  # no. seq range of length 9.
+```
+
+## Sub-setting Vectors
+
+The square brackets ([ ]) are used to extract elements from a vector.The index
+or indices of the element(s) to be extracted are placed inside the brackets.
+
+```{r}
+# value extraction from vectors.
+v1
+v1[2]
+v1[c(2,5)]
+```
+```{r}
+# To omit elements, use negative index numbers inside the square brackets.
+v1[-2]
+v1[-c(2,4)]
+```
+```{r}
+# You can use logical vectors (contain only TRUE or FALSE) to extract elements from vectors.
+v1
+v1[c(TRUE,FALSE,TRUE,TRUE,FALSE)] # false means explode it form vector.
+```
+
+## Vector Functions
+
+R provides many functions for working with vectors.Some Useful Functions are as follows:
+
+```{r}
+v2
+length(v2)
+sum(v2)
+prod(v2)
+sqrt(v2)
+sort(v2)
+```
+
+Vectorized Functions meaning that they can operate on entire vectors at once.
+
+```{r}
+v3<-c(2.3456,3.5678,3.456,1.267)
+round(v3,2) # round to two decimal places
+
+log(v3)     # log of a vector that is v3.
+```
+
+
+
+
+
+
