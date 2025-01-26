@@ -1,0 +1,124 @@
+---
+title: "Matrices and Arrays"
+date: "25-12-2024"
+output: pdf_document
+---
+In this we explains how to create and work with matrices and arrays in R.These are powerful data structures that are especially useful for handling data in statistical analysis.
+
+## Matrices
+Matrices in R are collections of values (usually numbers) arranged in a rectangular grid of rows and columns. The elements of a matrix can be accessed by their row and column indices. You can create a matrix in R using the matrix() function.
+
+1.You need to provide the data that will populate the matrix. This data is usually supplied as a vector.
+2.You also need to specify the dimensions of the matrix (number of rows and columns) using the arguments nrow and ncol.
+3.By default, R will fill the matrix column-wise, meaning the values in your data vector will be placed into the matrix column by column.
+
+```{r}
+mymat <- matrix(1:12,nrow = 3,ncol = 4)
+mymat
+```
+## rbind and cbind of data in matrix
+
+You can also create matrices by combining existing vectors using the rbind() and cbind() functions. 
+1.rbind() combines vectors as rows of the resulting matrix.
+2.cbind() combines vectors as columns of the resulting matrix.
+
+```{r}
+x <- 1:4
+y <- 5:8
+
+rbind(x,y)    # along row
+cbind(x,y)    # along column
+```
+The dim(), nrow(), and ncol() functions can be used to get information about the dimensions of a matrix.
+```{r}
+dim(mymat)    # dim of matrix
+nrow(mymat)   # no. or rows in matrix
+ncol(mymat)  # no. of column in a matrix
+```
+##  Subsets, Extractions, and Replacements
+
+1.You can access and modify elements within a matrix using subsetting.Subsetting in R uses square brackets [,] with the desired row and column indices separated by a comma.
+2.To access a single element, specify its row and column index. For example, mymat would access the element in the 1st row and 3rd column of mymat.
+```{r}
+mymat_1<-mymat[2,4]   # access single entry form matrix.
+mymat_1
+```
+3.To access an entire row, leave the column index blank. For example,mymat would access the second row of mymat.
+
+```{r}
+mymat_2<-mymat[2,]   # for a entire second row.
+mymat_2
+```
+4.To access an entire column, leave the row index blank. For example, mymat[,4] would access the fourth column of mymat.
+```{r}
+mymat_3<-mymat[,3]   # for a entire third column.
+mymat_3
+```
+To access a sub matrix, specify ranges of row and column indices. For example, mymat[1:2,2:3] would access the sub matrix containing the elements in rows 1 and 2 and columns 2 and 3 of mymat.
+```{r}
+dim(mymat)
+mymat[2:3,3:4]       # for a subsetting of matrix.
+```
+we can also modify the elements of the matrices.
+```{r}
+mymat
+mymat[2,4]<-34    # modify the entry in a matrix.
+mymat
+```
+## Diagonals and Identity matrices
+
+The diag() function can be used to extract the diagonal elements of a matrix. It can also be used to create an identity matrix, a square matrix with ones on the diagonal and zeros elsewhere.To extract the diagonal, pass the matrix to diag(). For example, diag(mymat) would return a vector containing the diagonal elements of mymat.
+```{r}
+diag(mymat)   # diagonal entries of the mymat.
+```
+To create an identity matrix, pass the desired dimension to diag().For example, diag(3) would create a 3x3 identity matrix.
+```{r}
+diag(4)       # for creating identity matrix.
+```
+##  Matrix Operations
+1.Transpose (t()): The t() function transposes a matrix, interchanging its rows and columns.
+```{r}
+t(mymat)  # transpose of matrix.
+```
+2.Scalar Multiplication (`*`): You can multiply a matrix by a scalar (a single number) using the multiplication operator (`*`). This operation multiplies every element of the matrix by the scalar.
+```{r}  
+2*mymat       # multiply a constant with a matrix.
+```
+3.Matrix Addition and Subtraction (+, -): Matrices of the same dimensions
+4.can be added or subtracted using the + and - operators, respectively.
+```{r}
+mymat + mymat_3    # adding two matrices
+mymat - mymat_3    # subtraction two matrices
+```
+5.Matrix Multiplication (`%*%`): You can multiply matrices using the `%*%` operator. The matrices must be conformable, meaning the number of columns in the first matrix must match the number of rows in the second matrix.
+```{r}
+x<-matrix(1:12, nrow = 4, ncol = 3)
+dim(x)
+
+x%*%mymat   # matrix multiplication
+```
+Matrix Inverse (solve()): For a square matrix, you can find its inverse (if it exists) using the solve() function. The inverse of a matrix A is denoted `A<sup> -1</sup>` and satisfies the property that A` %*% A<sup>-1</sup> = I`, where I is the identity matrix.
+```{r}
+z<-matrix(c(1,4,5,7,8,11,23,34,67), nrow = 3, ncol = 3)
+solve(z)    # inverse of matrix
+```
+## Multidimensional Arrays
+
+Arrays are a generalization of matrices to more than two dimensions.You can think of them as "matrices with depth". You create arrays using the array() function, providing the data and the desired dimensions:
+```{r}
+myarray <- array(1:24, dim=c(2,3,4))
+myarray
+
+#subsetting form array
+myarray[2,2:3,3]
+```
+
+
+
+
+
+
+
+
+
+
