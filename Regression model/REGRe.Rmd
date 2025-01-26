@@ -1,0 +1,355 @@
+---
+title: "Regression Model"
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+# Simple Linear Regression Model
+
+Linear regression is a statistical method used to model the relationship between a dependent variable and one or more independent variables. The simplest form is simple linear regression,which involves one dependent and  independent variable.
+
+# Assumptions of the Linear Regression Model
+
+1. **Linearity**:The relationship between the dependent and independent variable is linear.
+2. **Independence**: The residuals (errors) are independent.
+3. **Homoscedasticity**:The residuals have constant variance at every level of the independent variable.
+4. **Normality**: The residuals of the model are normally distributed.
+5. **No Multicollinearity**: In multiple regression, the independent variables are not highly correlated with each other.
+
+# Parameters of the Linear Regression Model
+
+1. **Intercept (beta_0)**:The expected value of the dependent variable when all independent variables are zero.
+2. **Slope (beta_1)**:The change in the dependent variable for a one-unit change in the independent variable.
+
+# Estimating the Intercept and Slope
+
+The linear regression model can be written as:
+  
+**y = beta_0 + beta_1X + epsilon**
+
+1. where (y) is the dependent variable, (x) is the independent variable (beta_0) is the intercept, (beta_1) is the slope, and (epsilon) is the error term.
+2. The parameters (beta_0) and (beta_1) are estimated using the least squares method, which minimizes the sum of the squared residuals.
+
+# Fitting the Regression Model in R
+
+Let's go through the steps to fit a linear regression model in R.
+```{r}
+# Load the Data
+set.seed(123)
+x <- rnorm(100, mean = 50, sd = 10)
+y <- 2 * x + rnorm(100, mean = 0, sd = 5)
+data <- data.frame(x, y)
+
+# Fit the linear regression model
+model <- lm(y ~ x, data = data)
+
+# Summary of the model
+summary(model)
+```
+
+# Checking Linearity in the Data
+
+You can visualize the relationship between the dependent and independent variables using a scatter plot with a regression line.
+```{r}
+# Scatter plot with regression line
+plot(data$x, data$y, main = "Scatter Plot with Regression Line", 
+     xlab = "Independent Variable (x)",
+     ylab = "Dependent Variable (y)")
+abline(model, col = "red")
+```
+
+# Illustrating Residuals
+
+Residuals are the differences between the observed and predicted values.You can plot the residuals to check the assumptions of the model.
+```{r}
+# Residual plot
+plot(model$fitted.values, model$residuals, main = "Residual Plot", 
+     xlab = "Fitted Values", ylab = "Residuals")
+abline(h = 0, col = "red")
+```
+
+# Coefficient of Determination ((R^2))
+
+The coefficient of determination, (R^2), measures the proportion of the variance in the dependent variable that is predictable from the independent variable(s). It ranges from 0 to 1, with higher values indicating a better fit.
+```{r}
+# Coefficient of determination (R^2)
+r_squared <- summary(model)$r.squared
+cat("R-squared:", r_squared, "\n")
+```
+# Prediction in Linear Models
+
+In a linear model, prediction involves using the fitted model to estimate the value of the dependent variable (response variable) for given values of the independent variables (predictors).The linear model equation is typically of the form:
+
+**y = beta_0 + beta_1x_1 + beta_2x_2 +epsilon**  
+
+1. where (y) is the dependent variable, (x_1, x_2) are the independent
+2. variables,(beta_0, beta_1, beta_2) are the coefficients,and (epsilon) is the error term.
+
+# Prediction Interval of Mean Response Variable
+
+A prediction interval provides a range within which we expect a new observation to fall, given specific values of the predictors. It accounts for both the uncertainty in the estimated mean response and the variability of the individual responses.
+
+# Plotting Prediction Interval
+
+To visualize prediction intervals, we can plot the fitted line along with the intervals around it. Here's an example using R:
+```{r}
+# Load necessary library
+library(ggplot2)
+
+# Sample data
+set.seed(123)
+x <- rnorm(100)
+y <- 2 + 3 * x + rnorm(100)
+
+# Fit linear model
+model <- lm(y ~ x)
+
+# Create new data for prediction
+new_data <- data.frame(x = seq(min(x), max(x), length.out = 100))
+
+# Predict with intervals
+predictions <- predict(model, newdata = new_data, interval = "prediction")
+
+# Combine predictions with new data
+new_data <- cbind(new_data, predictions)
+
+# Plot
+ggplot(new_data, aes(x = x, y = fit)) +
+  geom_line(color = "blue") +
+  geom_ribbon(aes(ymin = lwr, ymax = upr), alpha = 0.2) +
+  labs(title = "Prediction Interval", x = "Predictor", y = "Response")
+```
+
+# Interpolation and Extrapolation in SLM
+
+**Interpolation**:Estimating the value of the response variable within the range of the observed data.
+
+```{r}
+interpolated_value <- predict(model, newdata = data.frame(x = 0.5))
+cat("Interpolated value at x = 0.5:", interpolated_value, "\n")
+```
+
+**Extrapolation**:Estimating the value of the response variable outside the range of the observed data.
+
+```{r}
+extrapolated_value <- predict(model, newdata = data.frame(x = 3))
+cat("Extrapolated value at x = 3:", extrapolated_value, "\n")
+```
+# Binary Variable Regression Model
+
+A binary variable regression model, also known as logistic regression,is used when the dependent variable is binary (e.g.0 or 1,Yes or No).The logistic regression model estimates the probability that a given input point belongs to a certain class.
+
+The logistic regression model is given by:
+
+**log (p/1-p) = beta_0 + beta_1x_1 + beta_2x_2 + ... + beta_px_p**
+
+where ( p ) is the probability of the event occurring.
+
+```{r}
+# Load necessary library
+library(ggplot2)
+
+# Sample data
+set.seed(123)
+x <- rnorm(100)
+y <- ifelse(x + rnorm(100) > 0, 1, 0)
+
+# Fit logistic regression model
+model <- glm(y ~ x, family = binomial)
+
+# Summary of the model
+summary(model)
+```
+```{r}
+# Predict probabilities
+new_data <- data.frame(x = seq(min(x), max(x), length.out = 100))
+new_data$prob <- predict(model, newdata = new_data, type = "response")
+
+# Plot
+ggplot(new_data, aes(x = x, y = prob)) +
+  geom_line(color = "blue") +
+  labs(title = "Logistic Regression", x = "Predictor", 
+       y = "Probability")
+```
+**Multilevel Regression Model**
+
+Multi-level regression models, also known as hierarchical linear models,are used when data is nested (e.g.,students within schools, patients within hospitals). These models account for the hierarchical structure of the data.
+
+```{r}
+# Load necessary library
+library(lme4)
+
+# Sample data
+set.seed(123)
+school <- factor(rep(1:10, each = 10))
+student <- rep(1:10, times = 10)
+x <- rnorm(100)
+y <- 2 + 3 * x + rnorm(100) + as.numeric(school)
+
+# Fit multi-level model
+model <- lmer(y ~ x + (1 | school))
+
+# Summary of the model
+summary(model)
+```
+```{r}
+# Predict
+new_data <- data.frame(x = seq(min(x), max(x), length.out = 100), 
+                       school = factor(rep(1, 100)))
+new_data$pred <- predict(model, newdata = new_data, re.form = NA)
+
+# Plot
+ggplot(new_data, aes(x = x, y = pred)) +
+  geom_line(color = "blue") +
+  labs(title = "Multi-Level Regression", x = "Predictor", 
+       y = "Response")
+```
+
+# Changing the Reference Level of the Regression Model
+
+In regression models with categorical variables,the reference level is the base line category against which other categories are compared.You can change the reference level using the relevel function in R.
+```{r}
+# Sample data
+data <- data.frame(
+  y = rnorm(100),
+  group = factor(rep(c("A", "B", "C"), length.out = 100))
+)
+
+# Change reference level
+data$group <- relevel(data$group, ref = "B")
+
+# Fit linear model
+model <- lm(y ~ group, data = data)
+
+# Summary of the model
+summary(model)
+```
+# Treating Categorical Variable as Numeric
+
+Sometimes,categorical variables are treated as numeric,especially when they have an inherent order (ordinal variables).
+
+```{r}
+# Sample data
+data <- data.frame(
+  y = rnorm(100),
+  group = factor(rep(1:3, length.out = 100), ordered = TRUE)
+)
+
+# Fit linear model treating group as numeric
+model <- lm(y ~ as.numeric(group), data = data)
+
+# Summary of the model
+summary(model)
+```
+
+# Equivalence with the ANOVA Table in R
+
+ANOVA (Analysis of Variance) is used to compare means across different groups.In R, you can use the anova function to get the ANOVA table for a linear model.
+
+```{r}
+# Sample data
+data <- data.frame(
+  y = rnorm(100),
+  group = factor(rep(c("A", "B", "C"), length.out = 100))
+)
+
+# Fit linear model
+model <- lm(y ~ group, data = data)
+
+# ANOVA table
+anova(model)
+```
+
+# Multiple Linear Regression Model
+
+Multiple Linear Regression (MLRM) is a statistical technique that models the relationship between a dependent variable and two or more independent variables. The general form of the MLR equation is:
+  
+**Y = β0 + β1X1 + β2X2 + … + βpXp + ϵ**
+
+1. (Y) is the dependent variable.
+2. (X_1, X_2,.....,X_p) are the independent variables.
+3. (beta_0 ) is the intercept.
+4. (beta_1,beta_2,.....,beta_p ) are the coefficients.
+5. (epsilon) is the error term.
+
+Suppose we want to predict the price of house based on its size (in square feet) ,number of bedrooms, and age.The MLR model might look like this:
+
+**Price = β0 + β1(Size) + β2(Bedrooms) + β3(Age) + ϵ**
+
+In MLR, you can add more predictors to improve the model.For example,adding the location of the house as a categorical variable:
+
+**Price = β0 + β1(Size) + β2(Bedrooms) + β3(Age) + β4(Location) + ϵ**
+
+# Plotting the Multiple Linear Regression Model
+
+Plotting an MLR model can be challenging due to multiple dimensions.However, you can use added variable plots (partial regression plot) to visualize the relation between the dependent variable and each predictor while controlling for other predictors.
+
+```{r}
+# Load the mtcars dataset
+data("mtcars")
+
+# Display the first few rows of the dataset
+head(mtcars)
+
+# Create a multiple linear regression model
+# Predicting 'mpg' (miles per gallon) based on 'wt' (weight) and 'hp' (horsepower)
+model <- lm(mpg ~ wt + hp, data = mtcars)
+
+# Summary of the regression model
+summary(model)
+```
+```{r}
+# Visualize the relationship (optional)
+# Scatter plot of mpg vs wt with regression line
+plot(mtcars$wt, mtcars$mpg, 
+     main = "MPG vs Weight",
+     xlab = "Weight",
+     ylab = "Miles Per Gallon",
+     pch = 19, col = "blue")
+abline(lm(mpg ~ wt, data = mtcars), col = "red", lwd = 2)
+
+# Check residuals
+par(mfrow = c(2, 2)) # Set plot layout
+plot(model)          # Diagnostic plots for the model
+```
+
+# Finding Confidence Intervals for Coefficients
+
+Confidence intervals for the coefficients in an MLR model can be found using the confint function in R:
+```{r}
+confint(model)
+```
+# Transformation of Numeric Variables
+
+Transformations can help meet the assumptions of linear regression.Common transformations include log,square root, and polynomial transformations.For example,applying a log transformation to the dependent variable:
+```{r}
+# now we do the transformation of variable in mtcars data set and do multi- linear regression model.Create a multiple linear regression model Predicting 'mpg'(miles per gallon) based on 'wt' (weight) and 'hp' (horsepower).
+
+model <- lm(mpg ~ log(wt) + log(hp), data = mtcars)
+summary(model)
+```
+# Polynomial Transformation
+
+Polynomial regression involves adding polynomial terms to the model to capture non-linear relationships. For example, adding a quadratic term for size:
+```{r}
+# now we do the polynomial regression on the mtcars data set.
+model_polynomial<-lm(mpg~wt+I(wt^2),data=mtcars)
+summary(model_polynomial)
+```
+
+# MLR with Categorical and Continuous Variables
+
+You can include both categorical and continuous variables in an MLR model.For example, with two categorical and two continuous variables:
+```{r}
+# now we do the MLR with categorical and continuous variables in the mtcars data set.
+model_mlr<-lm(mpg~factor(cyl)+factor(gear)+wt+hp,data=mtcars)
+summary(model_mlr)
+```
+# Higher Order Interactions in R
+
+Higher-order interactions involve terms that represent the interaction between two or more predictors. For example, an interaction between size and age:
+```{r}
+# now we do the higher order interaction in the mtcars data set.
+model_interaction<-lm(mpg~wt*hp,data=mtcars)
+summary(model_interaction)
+```
