@@ -1,0 +1,139 @@
+---
+title: "Basic Plotting"
+output: pdf_document
+---
+# Box Plot
+A box plot (or box-and-whisker plot) is a graphical representation of data that shows the distribution through their quartiles.It highlights the median
+quartiles, and potential outliers in the data.
+```{r}
+# Load the dataset
+data("airquality")
+
+# Create a box plot for the Ozone column
+boxplot(airquality$Ozone, 
+        main = "Ozone Levels in New York",
+        xlab = "Ozone (ppb)",
+        ylab = "Frequency",
+        col = "lightblue",
+        border = "darkblue")
+```
+Components of a Box Plot are as follows:
+
+1. Median (Q2): The line inside the box.
+2. First Quartile (Q1): The lower edge of the box.
+3. Third Quartile (Q3): The upper edge of the box.
+4. Interquartile Range (IQR): The distance between Q1 and Q3.
+5. Whiskers: Lines extending from the box to the smallest and largest values within 1.5 * IQR from Q1 and Q3.
+6. Outliers: Points outside the whiskers.
+# Multiple Box Plots
+
+You can also create multiple box plots in a single plot by passing a list or data frame:
+```{r}
+  
+# Multiple box plots
+boxplot(airquality$Ozone, airquality$Temp,
+          names = c("Ozone", "Temperature"),
+          main = "Ozone and Temperature Levels",
+          col = c("lightblue", "lightgreen"))
+```
+**Chart Plot**
+
+The term "chart plot" can refer to various types of plots in R, such as line plots, bar plots, scatter plots, etc. Here are a few common types:
+
+1. **Line Plot**
+
+A line plot is useful for visualizing data points connected by straight lines, often used for time series data.
+```{r}
+plot(airquality$Temp, type = "l",
+     main = "Temperature Over Time",
+     xlab = "Day",
+     ylab = "Temperature (F)",
+     col = "red")
+```
+2. **Bar Plot**
+
+A bar plot displays data with rectangular bars, where the length of each bar is proportional to the value it represents.
+```{r}
+barplot(table(airquality$Month),
+        main = "Monthly Air Quality Measurements",
+        xlab = "Month",
+        ylab = "Frequency",
+        col = "lightblue")
+```
+3. **Scatter Plot**
+
+A scatter plot shows the relationship between two continuous variables.
+```{r}
+plot(airquality$Ozone, airquality$Temp,
+     main = "Ozone vs Temperature",
+     xlab = "Ozone (ppb)",
+     ylab = "Temperature (F)",
+     col = "blue",
+     pch = 19)
+```
+# Pie Chart
+
+A pie chart is a circular chart divided into sectors, each representing a proportion of the whole.
+```{r}
+# Sample data
+slices <- c(10, 20, 30, 40)
+labels <- c("A", "B", "C", "D")
+
+# Create pie chart
+pie(slices, labels = labels, main = "Pie Chart Example", 
+    col = rainbow(length(slices)))
+```
+```{r}
+# Customizing a Pie Chart
+
+# Adding percentages
+percentages <- round(slices / sum(slices) * 100)
+labels <- paste(labels, percentages, "%", sep = " ")
+
+# Create pie chart with percentages
+pie(slices, labels = labels, main = "Pie Chart with Percentages",
+    col = rainbow(length(slices)))
+```
+# Histogram
+
+A histogram is used to visualize the distribution of a dataset by dividing it into bins and counting the number of observations in each bin.
+```{r}
+# Load the dataset
+data("airquality")
+
+# Create a histogram for the Temperature column
+hist(airquality$Temp, main = "Temperature Distribution", 
+     xlab = "Temperature (F)", col = "lightblue", 
+     border = "black")
+```  
+```{r}
+# Customizing the histogram
+
+hist(airquality$Temp, breaks = 15, 
+     main = "Temperature Distribution", 
+     xlab = "Temperature (F)", 
+     col = "lightblue", 
+     border = "black")
+```
+# Scatter Plot
+
+A scatter plot displays the relationship between two continuous variables.You can add a regression line to the scatter plot to visualize the trend:
+```{r}
+# Scatter plot of Ozone vs Temperature
+plot(airquality$Ozone, airquality$Temp, 
+     main = "Ozone vs Temperature", 
+     xlab = "Ozone (ppb)", 
+     ylab = "Temperature (F)", 
+     col = "blue", 
+     pch = 19)
+
+# Add a regression line
+abline(lm(Temp ~ Ozone, data = airquality), col = "red")
+```
+# Matrix Plots
+
+A matrix plot (or scatterplot matrix) shows pairwise relationships between multiple variables in a dataset.
+```{r}
+# Using base R
+pairs(airquality[, 1:4], main = "Scatterplot Matrix")
+```

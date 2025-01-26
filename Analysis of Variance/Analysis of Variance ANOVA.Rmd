@@ -1,0 +1,98 @@
+---
+title: "Analysis of Variance"
+output: pdf_document
+---
+# Analysis of Variance (ANOVA)
+
+ANOVA is a statistical method used to compare the means of three or more groups to determine if at least one group mean is significantly different from the others. It helps in understanding whether the observed differences among sample means are due to actual differences in the population means or just random variation.
+
+# One-Way ANOVA
+
+One-Way ANOVA is used when there is one independent variable with multiple levels (groups).
+
+# Hypothesis
+
+**(H_0)**: All group means are equal(mu_1 =mu_2 =mu_3 =......=mu_k)).
+
+**(H_1)**: At least one group mean is different.
+```{r}
+set.seed(123)
+group <- factor(rep(1:3, each = 10))
+values <- c(rnorm(10, mean = 5), rnorm(10, mean = 6), 
+            rnorm(10, mean = 7))
+
+# Perform One-Way ANOVA
+anova_result <- aov(values ~ group)
+summary(anova_result)
+```
+# Two-Way ANOVA
+
+Two-Way ANOVA is used when there are two independent variables.
+
+# Hypothesis:
+
+**(H_0)**:There is no interaction effect between the two factors, and the means are equal across the levels of each factor.
+
+**(H_1)**:There is an interaction effect, or the means are not equal across the levels of each factor.
+
+```{r}
+# Example dataset
+data <- data.frame(
+  Factor1 = rep(c("A", "B"), each = 6),
+  Factor2 = rep(c("X", "Y", "Z"), times = 4),
+  Response = c(4.2, 4.8, 3.6, 5.0, 4.9, 3.7, 5.1, 5.3, 4.2, 5.6, 5.4, 4.8)
+)
+
+# Perform two-way ANOVA
+anova_result <- aov(Response ~ Factor1 * Factor2, data = data)
+
+# Display results
+summary(anova_result)
+```
+# ANOVA Table
+
+An ANOVA table summarizes results of the ANOVA test.It includes the following features:
+  
+1. **Source of Variation**:Identifies the different sources of variation (e.g. between groups, within groups).
+2. **Sum of Squares (SS)**:Measures the total variation.
+3. **SS Between (SSB)**:Variation due to the differences between group means.
+4. **SS Within (SSW)**:Variation within each group.
+5. **Degrees of Freedom (df)**:Number of independent values that can vary.df Between: (k - 1) (where (k) is the number of groups).df Within: (N - k) (where (N) is the total number of observations).
+6. **Mean Square (MS)**:Average variation (SS divided by df).
+7. **MS Between**:(SSB / df_between).
+8. **MS Within**:(SSW / df_within).
+9. **F-Statistic**:Ratio of MS Between to MS Within.F =(MS_between)/(MS_within).
+10. **P-Value**:Probability of observing the data that null hypothesis is true.
+
+# Making Decisions After ANOVA
+
+Check the P-Value:Compare the p-value to the significance level(alpha),typically 0.05).If (p<alpha),reject the null hypothesis(indicating significant differences between group means).If (p>alpha),fail to reject the null hypothesis (indicating no significant differences).
+
+# Post-Hoc Tests 
+
+If the null hypothesis is rejected, perform post-hoc tests (e.g. Tukey's HSD) to determine which specific groups are different.
+```{r}
+# Perform Tukey's HSD test
+tukey_result <- TukeyHSD(anova_result)
+print(tukey_result)
+```
+
+# Kruskal-Wallis test
+
+The Kruskal-Wallis test is a non-parametric alternative to one-way ANOVA. It is used when the assumptions of ANOVA (e.g.normality,homogeneity of variances) are not met.
+
+# Hypothesis:
+  
+**(H_0)**: The distributions of the groups are the same.
+
+**(H_1)**: At least one group distribution is different.
+```{r}
+set.seed(123)
+group <- factor(rep(1:3, each = 10))
+values <- c(rnorm(10, mean = 5), rnorm(10, mean = 6), 
+            rnorm(10, mean = 7))
+
+# Perform Kruskal-Wallis test
+kruskal_result <- kruskal.test(values ~ group)
+print(kruskal_result)
+```

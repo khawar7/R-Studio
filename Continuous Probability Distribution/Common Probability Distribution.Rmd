@@ -1,0 +1,383 @@
+---
+title: "Common Probability Distributions"
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+
+1. **Distribution**: A description or function that shows the possible values of a variable and how often they occur.
+
+2. **Probability**: A measure of the likelihood that a specific event will occur, expressed as a number between 0 and 1.
+
+# Discrete Probability Distributions
+
+**Discrete**: Refers to data or variables that can only take specific, separate values (e.g., integers), with no intermediate values between them.
+
+**Discrete Probability Distribution**: A distribution that gives the probabilities of occurrence of different values for a discrete random variable.
+
+# Bernoulli Distribution
+The Bernoulli distribution is a discrete probability distribution for a random variable which has only two possible outcomes: 0 (failure) and 1 (success).The probability of success is denoted by ( p ), and the probability of failure is ( 1 - p ).
+```{r}
+# Using dbern() from Rlab:
+library(Rlab)
+
+# Calculate Bernoulli probabilities
+dbern(c(0, 1), prob = 0.7)
+```
+# Binomial Distribution
+The Binomial distribution generalizes the Bernoulli distribution to multiple trials. It describes the number of successes in a fixed number of independent Bernoulli trials, each with the same probability of success ( p ).The Binomial distribution is defined by two parameters: ( n ) (number of trials) and ( p ) (probability of success).
+```{r}
+# dbinom(x, size, prob): Computes the probability mass function (PMF).
+# Probability of getting exactly 3 successes in 10 trials with success of 0.5.
+dbinom(3, size = 10, prob = 0.5)
+```
+```{r}
+# pbinom(q, size, prob): Computes the cumulative distribution function (CDF).
+# Probability of getting 3 or fewer successes in 10 trials with success of 0.5.
+pbinom(3, size = 10, prob = 0.5)
+```
+```{r}
+# qbinom(p, size, prob):Computes the quantile function.Number of successes 
+# corresponds to the 0.5 quantile in 10 trials with success probability 0.5.
+qbinom(0.5, size = 10, prob = 0.5)
+```
+```{r}
+# rbinom(n, size, prob): Generates random samples.
+# Generate 5 random samples from a Binomial distribution with 10 trials and 
+# success probability 0.5.
+rbinom(5, size = 10, prob = 0.5)
+```
+# Poisson Distribution
+The Poisson distribution models the number of events occurring within a fixed
+interval of time or space, given the average number of times the event occurs
+over that interval. It is defined by the parameter(lambda), which is the average rate of occurrence.
+```{r}
+# dpois(x, lambda):Computes the probability mass function (PMF).
+# Probability of observing exactly 3 events when the average rate is 2.
+dpois(3, lambda = 2)
+```
+```{r}
+# ppois(q, lambda):Computes the cumulative distribution function (CDF).
+#Probability of observing 3 or fewer events when the average rate is 2.
+ppois(3, lambda = 2)
+```
+```{r}
+# qpois(p,lambda):Computes the quantile function.
+#Number of events corresponding to the 0.5 quantile when the average rate is 2.
+qpois(0.5, lambda = 2)
+```
+```{r}
+# rpois(n, lambda):Generates random samples.
+# Generate 5 random samples from  a Poisson dist. with an average rate of 2.
+rpois(5, lambda = 2)
+```
+# Geometric Distribution
+The Geometric distribution models the number of trials needed to get the first
+success in a series of independent and identically distributed Bernoulli trials. It is defined by the parameter ( p ), the probability of success on each trial.
+```{r}
+# dgeom(x, prob):Computes the probability mass function (PMF).
+# Probability needed exactly 3 trial to get first success with success of 0.5.
+dgeom(3, prob = 0.5)
+```
+```{r}
+# pgeom(q, prob):Computes the cumulative distribution function (CDF).
+# Probability needed 3 or fewer trial to get first success with success of 0.5.
+pgeom(3, prob = 0.5)
+```
+```{r}
+# qgeom(p,prob):Computes the quantile function.
+# Number of trials corresponds to the 0.5 quantile with success probability 0.5.
+qgeom(0.5, prob = 0.5)
+```
+```{r}
+# rgeom(n, prob):Generates random samples.
+# Generate 5 random samples from a Geometric distribution with a success of 0.5.
+rgeom(5, prob = 0.5)
+```
+# Hypergeometric Distribution
+
+The Hypergeometric distribution models the number of successes in a sample of size ( n ) drawn without replacement from a population of size ( N ) that 
+contains ( K ) successes.It is defined by the parameters ( N ) (population size) ,( K ) (number of successes in the population), and ( n ) (sample size).
+```{r}
+# dhyper(x, m, n, k): Computes the probability mass function (PMF).
+dhyper(3, m = 20, n = 30, k = 10)
+```
+```{r}
+# phyper(q, m, n, k):Computes the cumulative distribution function (CDF).
+phyper(3, m = 20, n = 30, k = 10)
+```
+```{r}
+# qhyper(p,m,n,k):Computes the quantile function.
+qhyper(0.5, m = 20, n = 30, k = 10)
+```
+```{r}
+# rhyper(nn, m, n, k):Generates random samples.
+rhyper(5, m = 20, n = 30, k = 10)
+```
+# Multinomial Distribution
+The Multinomial distribution generalizes the Binomial distribution to more than two outcomes.It models the counts of each outcome in a fixed number of 
+independent trials, where each trial results in one of ( k ) possible outcomes
+each with its own probability.
+```{r}
+# rmultinom(n, size, prob): Generates random samples.
+# Generate 5 random samples from a Multinomial distribution with 10 trials and
+# probabilities 0.2, 0.3, and 0.5
+rmultinom(5, size = 10, prob = c(0.2, 0.3, 0.5))
+```
+```{r}
+# dmultinom(x, size, prob): Computes the probability mass function (PMF).
+# Probability of getting 2,3 and 5 outcomes in 10 trials with probability   0.2, # 0.3, and 0.5.
+dmultinom(c(2, 3, 5), size = 10, prob = c(0.2, 0.3, 0.5))
+```
+# Negative Binomial Distribution
+The Negative Binomial distribution models the number of trials needed to get ( r ) successes in a series of independent and identically distributed Bernoulli trials. It is defined by two parameters: ( r ) (number of successes) and ( p ) (probability of success on each trial).
+```{r}
+# dnbinom(x, size, prob): Computes the probability mass function (PMF).
+# Probability needed exactly 3 trial to get 2 success with a success probability # of 0.5.
+dnbinom(3, size = 2, prob = 0.5)
+```
+```{r}
+# pnbinom(q, size, prob): Computes the cumulative distribution function (CDF). 
+# Probability of needing 3 or fewer trials to get 2 successes with a success 
+# probability of 0.5.
+pnbinom(3, size = 2, prob = 0.5)
+```
+```{r}
+# qnbinom(p, size, prob): Computes the quantile function.
+qnbinom(0.5, size = 2, prob = 0.5)
+```
+```{r}
+# rnbinom(n, size, prob): Generates random samples.
+rnbinom(5, size = 2, prob = 0.5)
+```
+
+# Continouos probability distributions
+
+**Continuous**: Refers to data or variables that can take any value within a given range, including fractions and decimals.
+
+**Continuous Probability Distribution**: A distribution that gives the probabil
+-ities of occurrence of different values for a continuous random variable.
+
+1. Density Function: dunif(x, min, max)
+2. Cumulative Distribution Function: punif(x, min, max)
+3. Quantile Function: qunif(p, min, max)
+4. Random Generation: runif(n, min, max)
+
+# Uniform Distribution
+The uniform distribution is a continuous probability distribution where all
+intervals of the same length within the distribution's range are equally probable.parameter of the distribution is a and b and distribution ranges from a to b.
+```{r}
+# Density
+dunif(0.5, min=0, max=1)
+```
+```{r}
+# Cumulative Probability
+punif(0.5, min=0, max=1)
+```
+```{r}
+# Quantile
+qunif(0.5, min=0, max=1)
+```
+```{r}
+# Random Generation
+runif(10, min=0, max=1)
+```
+# Normal Distribution
+The normal distribution, also known as the Gaussian distribution,is a continuous probability distribution characterized by its bell-shaped curve.Its parameters are the mean (mu) and standard deviation (sigma).The distribution ranges from negative infinity to positive infinity.
+```{r}
+# Density
+dnorm(0, mean=0, sd=1)
+```
+```{r}
+# Cumulative Probability
+pnorm(0, mean=0, sd=1)
+```
+```{r}
+# Quantile
+qnorm(0.5, mean=0, sd=1)
+```
+```{r}
+# Random Generation
+rnorm(10, mean=0, sd=1)
+```
+# Exponential Distribution
+The exponential distribution is used to model the time between events in a
+Poisson process.The parameter of distribution is rate(lambda) which is the average number of events per unit of time.The range of distribution is from 0 to infinity.
+```{r}
+# Density
+dexp(1, rate=1)
+```
+```{r}
+# Cumulative Probability
+pexp(1, rate=1)
+```
+```{r}
+# Quantile
+qexp(0.5, rate=1)
+```
+```{r}
+# Random Generation
+rexp(10, rate=1)
+```
+# Chi-Square Distribution
+The chi-square distribution is used in hypothesis testing and construction of confidence intervals.The parameter of distribution is degrees of freedom(df).The range of distribution is from 0 to infinity.
+```{r}
+# Density
+dchisq(2, df=3)
+```
+```{r}
+# Cumulative Probability
+pchisq(2, df=3)
+```
+```{r}
+# Quantile
+qchisq(0.95, df=3)
+```
+```{r}
+# Random Generation
+rchisq(10, df=3)
+```
+# Beta Distribution
+The beta distribution is a continuous probability distribution defined on the interval [0, 1].The parameter of distribution A larger α skews the distribution toward 1. A larger β skews the distribution toward 0.
+```{r}
+# Density
+dbeta(0.5, shape1=2, shape2=5)
+```
+```{r}
+# Cumulative Probability
+pbeta(0.5, shape1=2, shape2=5)
+```
+```{r}
+# Quantile
+qbeta(0.5, shape1=2, shape2=5)
+```
+```{r}
+# Random Generation
+rbeta(10, shape1=2, shape2=5)
+```
+# Gamma Distribution
+The gamma distribution is used to model waiting times.The parameter of the distribution is shape(alpha) and rate(beta).The range of distribution is from 0 to infinity.
+```{r}
+# Density
+dgamma(2, shape=2, rate=1)
+```
+```{r}
+# Cumulative Probability
+pgamma(2, shape=2, rate=1)
+```
+```{r}
+# Quantile
+qgamma(0.5, shape=2, rate=1)
+```
+```{r}
+# Random Generation
+rgamma(10, shape=2, rate=1)
+```
+# F Distribution
+The F distribution is used primarily in ANOVA and regression analysis.The Parameter of distribution is degrees of freedom(df1) and degrees of freedom(df2) .The range of distribution is from 0 to infinity.
+```{r}
+# Density
+df(2, df1=5, df2=2)
+```
+```{r}
+# Cumulative Probability
+pf(2, df1=5, df2=2)
+```
+```{r}
+# Quantile
+qf(0.95, df1=5, df2=2)
+```
+```{r}
+# Random Generation
+rf(10, df1=5, df2=2)
+```
+# t Distribution
+The t distribution is used in hypothesis testing and confidence intervals for small sample sizes.The parameter of distribution is degrees of freedom(df).The range of distribution is from negative infinity to positive infinity.
+```{r}
+# Density
+dt(0, df=10)
+```
+```{r}
+# Cumulative Probability
+pt(0, df=10)
+```
+```{r}
+# Quantile
+qt(0.95, df=10)
+```
+```{r}
+# Random Generation
+rt(10, df=10)
+```
+# Weibull Distribution
+The Weibull distribution is used to model the time until an event occurs.The parameter of distribution is shape(k) and scale(lambda).The range of distribut- ion is from 0 to infinity.
+```{r}
+# Density
+dweibull(2, shape=2, scale=1)
+```
+```{r}
+# Cumulative Probability
+pweibull(2, shape=2, scale=1)
+```
+```{r}
+# Quantile
+qweibull(0.5, shape=2, scale=1)
+```
+```{r}
+# Random Generation
+rweibull(10, shape=2, scale=1)
+```
+# Log-Normal Distribution
+The log-normal distribution is used to model data that is skewed to the right. The parameter of distribution is mean log(mu) and sdlog(sigma).The range of distribution is from 0 to infinity.
+```{r}
+# Density
+dlnorm(2, meanlog=0, sdlog=1)
+```
+```{r}
+# Cumulative Probability
+plnorm(2, meanlog=0, sdlog=1)
+```
+```{r}
+# Quantile
+qlnorm(0.5, meanlog=0, sdlog=1)
+```
+```{r}
+# Random Generation
+rlnorm(10, meanlog=0, sdlog=1)
+```
+# Cauchy Distribution
+The Cauchy distribution is used to model data with heavy tails.The parameter of distribution is location and scale.The range of distribution is from negative infinity to positive infinity.
+```{r}
+# Density
+dcauchy(0, location=0, scale=1)
+```
+```{r}
+# Cumulative Probability
+pcauchy(0, location=0, scale=1)
+```
+```{r}
+# Quantile
+qcauchy(0.5, location=0, scale=1)
+```
+```{r}
+# Random Generation
+rcauchy(10, location=0, scale=1)
+```
+# Logistic Distribution
+The logistic distribution is used to model growth processes.The parameter of distribution is location and scale.The range of distribution is from negative infinity to positive infinity.
+```{r}
+# Density
+dlogis(0, location=0, scale=1)
+```
+```{r}
+# Cumulative Probability
+plogis(0, location=0, scale=1)
+```
+```{r}
+# Quantile
+qlogis(0.5, location=0, scale=1)
+```
+```{r}
+# Random Generation
+rlogis(10, location=0, scale=1)
+```
